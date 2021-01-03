@@ -306,33 +306,36 @@ public class Game extends Canvas implements Runnable {
 	/** Renders the GUI on the screen used in the main game (hearts, Stamina bolts, name of the current item, etc, etc) */
 	private void renderGui() {
 		
-		for (int y = 0; y < 2; y++) {
-			for (int x = 0; x < 20; x++) {
-				//renders a black box at the bottom of the screen.
-				screen.render(x * 8, screen.h - 16 + y * 8, 0 + 12 * 32, Color.get(000, 000, 000, 000), 0);
-			}
+//		for (int y = 0; y < 2; y++) {
+//			for (int x = 0; x < 20; x++) {
+//				//renders a black box at the bottom of the screen.
+//				screen.render(x * 8, screen.h - 16 + y * 8, 0 + 12 * 32, Color.get(000, 000, 000, 000), 0);
+//			}
+//		}
+
+		for (int i = 0; i < player.maxHealth; i++) {
+		    if (i < player.health)
+			screen.render(i * 8, screen.h - 16, 0 + 12 * 32, Color.get(-1, 200, 500, 533), 0);//renders your current red hearts.
+		    else
+			screen.render(i * 8, screen.h - 16, 0 + 12 * 32, Color.get(-1, 100, -1, 000), 0);//renders black hearts for damaged health.
 		}
 
-		for (int i = 0; i < 10; i++) {
-			if (i < player.health)
-				screen.render(i * 8, screen.h - 16, 0 + 12 * 32, Color.get(000, 200, 500, 533), 0);//renders your current red hearts.
-			else
-				screen.render(i * 8, screen.h - 16, 0 + 12 * 32, Color.get(000, 100, 000, 000), 0);//renders black hearts for damaged health.
-
+		for (int i = 0; i < player.maxStamina; i++){
 			if (player.staminaRechargeDelay > 0) {
 				if (player.staminaRechargeDelay / 4 % 2 == 0)
-					screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 555, 000, 000), 0);//creates the blinking effect when you run out of stamina. (white part)
+					screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(-1, 555, -1, 000), 0);//creates the blinking effect when you run out of stamina. (white part)
 				else
-					screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 110, 000, 000), 0);//creates the blinking effect when you run out of stamina. (gray part)
+					screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(-1, 110, -1, 000), 0);//creates the blinking effect when you run out of stamina. (gray part)
 			} else {
 				if (i < player.stamina)
-					screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 220, 550, 553), 0);//renders your current stamina
+					screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(-1, 220, 550, 553), 0);//renders your current stamina
 				else
-					screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 110, 000, 000), 0);//renders your uncharged stamina (grayed)
+					screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(-1, 110, -1, 000), 0);//renders your uncharged stamina (grayed)
 			}
 		}
 		if (player.activeItem != null) {
-			player.activeItem.renderInventory(screen, 10 * 8, screen.h - 16);//if you have an active item then it will render the item sprite and it's name.
+//			player.activeItem.renderInventory(screen, 10 * 8, screen.h - 16);//if you have an active item then it will render the item sprite and it's name.
+			player.activeItem.renderInventory(screen, 0, screen.h - 24);//if you have an active item then it will render the item sprite and it's name.
 		}
 
 		if (menu != null) {

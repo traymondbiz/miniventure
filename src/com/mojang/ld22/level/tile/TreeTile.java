@@ -34,7 +34,7 @@ public class TreeTile extends Tile {
 		boolean ur = level.getTile(x + 1, y - 1) == this; // checks if the upper-right tile is a tree tile.
 		boolean dl = level.getTile(x - 1, y + 1) == this; // checks if the bottom-left tile is a tree tile.
 		boolean dr = level.getTile(x + 1, y + 1) == this; // checks if the bottom-right tile is a tree tile.
-		
+
 		if (u && ul && l) { // if there is a tree above, to the left, and to the upper left of this tile then...
 			screen.render(x * 16 + 0, y * 16 + 0, 10 + 1 * 32, col, 0); // render a tree tile sprite that will connect to other trees. (top-left)
 		} else {
@@ -61,7 +61,7 @@ public class TreeTile extends Tile {
 	public void tick(Level level, int xt, int yt) {
 		int damage = level.getData(xt, yt); // gets the damage from the tree
 		if (damage > 0) level.setData(xt, yt, damage - 1); // if the damage is above 0, then decrease the damage by 1.
-		
+
 		// Huh, so trees and cactuses can heal themselves, weird. - David.
 	}
 
@@ -90,17 +90,22 @@ public class TreeTile extends Tile {
 	}
 
 	private void hurt(Level level, int x, int y, int dmg) {
-		{
-			int count = random.nextInt(10) == 0 ? 1 : 0; //if a random number between 0 to 9 equals 0, then count will equal 1. else it will be 0.
-			for (int i = 0; i < count; i++) { // loop through the count
-				level.add(new ItemEntity(new ResourceItem(Resource.apple), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));//add an apple to the world
-			}
+
+		int count = random.nextInt(10) == 0 ? 1 : 0; //if a random number between 0 to 9 equals 0, then count will equal 1. else it will be 0.
+		for (int i = 0; i < count; i++) { // loop through the count
+			level.add(new ItemEntity(new ResourceItem(Resource.apple), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));//add an apple to the world
 		}
+
+	    	count = random.nextInt(200) == 0 ? 1 : 0; // 1/200 chance of a golden apple dropping (0.5%)
+	    	for (int i = 0; i < count; i++) { // loop through the count
+	    	    	level.add(new ItemEntity(new ResourceItem(Resource.goldenApple), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+	    	}
+
 		int damage = level.getData(x, y) + dmg; // adds damage value to the tree's data.
 		level.add(new SmashParticle(x * 16 + 8, y * 16 + 8)); // creates a smash particle
 		level.add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.get(-1, 500, 500, 500))); // creates a text particle to tell how much damage the player did.
 		if (damage >= 20) { // if damage is larger than or equal to 0
-			int count = random.nextInt(2) + 1; // random number between 1 to 2
+			count = random.nextInt(2) + 1; // random number between 1 to 2
 			for (int i = 0; i < count; i++) { // cycles through the count
 				level.add(new ItemEntity(new ResourceItem(Resource.wood), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3)); // adds wood to the world
 			}
